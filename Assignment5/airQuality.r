@@ -42,3 +42,4 @@ as.data.frame(table(airQual$CO.GT.)) #this works as MapReduce, giving value of -
 
 # replace for PT08.S1.CO
   summary(airQual$PT08.S1.CO.)
+  mean1 <- mean(airQual$PT08.S1.CO.[which(airQual$PT08.S1.CO. < 10)])
