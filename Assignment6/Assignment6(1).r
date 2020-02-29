@@ -49,5 +49,5 @@ levels(hdata$thal)[levels(hdata$thal)=="?"]<-NA
 table(hdata$thal)
 
 #replacing NA with max factor
-hdata$thal[is.na(hdata$thal)]<-3.0
+hdata$thal[is.na(hdata$thal)]<-as.factor(3.0)
 table(hdata$thal)
