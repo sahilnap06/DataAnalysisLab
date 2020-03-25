@@ -1,0 +1,204 @@
+//Java Code
+
+package Logfile;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.apache.hadoop.conf.Configuration;
+
+import org.apache.hadoop.fs.Path;
+
+import org.apache.hadoop.io.IntWritable;
+
+import org.apache.hadoop.io.LongWritable;
+
+import org.apache.hadoop.io.Text;
+
+import org.apache.hadoop.mapreduce.Job;
+
+import org.apache.hadoop.mapreduce.Mapper;
+
+import org.apache.hadoop.mapreduce.Reducer;
+
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+import org.apache.hadoop.util.GenericOptionsParser;
+
+public class Log {
+
+public static void main(String [] args) throws Exception
+
+{
+
+Configuration c=new Configuration();
+
+String[] files=new GenericOptionsParser(c,args).getRemainingArgs();
+
+Path input=new Path(files[0]);
+
+Path output=new Path(files[1]);
+
+Job j=new Job(c,"log");
+
+j.setJarByClass(Log.class);
+
+j.setMapperClass(MapForLog.class);
+
+j.setReducerClass(ReduceForLog.class);
+
+j.setOutputKeyClass(Text.class);
+
+j.setOutputValueClass(IntWritable.class);
+
+FileInputFormat.addInputPath(j, input);
+
+FileOutputFormat.setOutputPath(j, output);
+
+System.exit(j.waitForCompletion(true)?0:1);
+
+}
+
+public static class MapForLog extends Mapper<LongWritable, Text, Text, IntWritable>{
+
+	public void map(LongWritable key, Text value, Context con) throws IOException, InterruptedException{
+	
+		String line = value.toString();
+		String[] words=line.split(",");
+		Text outputKey = null;
+		long diff;
+		IntWritable outputValue;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime time1, time2 = null;
+		
+		for(int i=0;i<words.length;i=i+8)
+		{
+			outputKey = new Text(words[i+1].trim());
+			time1 = LocalDateTime.parse(words[i+5],formatter);
+			time2 = LocalDateTime.parse(words[i+7],formatter);
+			diff = java.time.Duration.between(time1,time2).toMinutes();
+			outputValue = new IntWritable((int)diff);
+		
+			con.write(outputKey, outputValue);
+		}
+	}
+}
+
+public static class ReduceForLog extends Reducer<Text, IntWritable, Text, IntWritable>{
+	int max_sum = 0;
+	Text max_logtime = new Text();
+	public void reduce(Text word, Iterable<IntWritable> values, Context con) throws IOException, InterruptedException{
+	
+		int sum = 0;
+	
+	   for(IntWritable value : values)
+	   {
+		   	sum += value.get();
+	   }
+	   if(sum > max_sum)
+	   {
+		   max_sum = sum;
+		   max_logtime.set(word);
+	   }
+	}
+	protected void cleanup(Context con) throws IOException, InterruptedException{
+		con.write(max_logtime, new IntWritable(max_sum));
+	}
+}
+
+}
+
+
+//Created a JAR file with name logFile.jar
+
+// CLI commands
+
+hduser@NaSa-Rig:~$ hdfs dfs -mkdir /logFile
+
+hduser@NaSa-Rig:~$ hdfs dfs -copyFromLocal SL6/logTime.csv /logFile/logTime.csv
+
+hduser@NaSa-Rig:~$ hadoop jar SL6/logFile.jar Logfile.Log /logFile/logTime.csv MRDir1
+20/03/24 16:28:11 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+20/03/24 16:28:11 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+20/03/24 16:28:12 INFO input.FileInputFormat: Total input files to process : 1
+20/03/24 16:28:12 INFO mapreduce.JobSubmitter: number of splits:1
+20/03/24 16:28:12 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1585044263310_0002
+20/03/24 16:28:13 INFO impl.YarnClientImpl: Submitted application application_1585044263310_0002
+20/03/24 16:28:13 INFO mapreduce.Job: The url to track the job: http://NaSa-Rig:8088/proxy/application_1585044263310_0002/
+20/03/24 16:28:13 INFO mapreduce.Job: Running job: job_1585044263310_0002
+20/03/24 16:28:19 INFO mapreduce.Job: Job job_1585044263310_0002 running in uber mode : false
+20/03/24 16:28:19 INFO mapreduce.Job:  map 0% reduce 0%
+20/03/24 16:28:22 INFO mapreduce.Job:  map 100% reduce 0%
+20/03/24 16:28:26 INFO mapreduce.Job:  map 100% reduce 100%
+20/03/24 16:28:27 INFO mapreduce.Job: Job job_1585044263310_0002 completed successfully
+20/03/24 16:28:27 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=1864
+		FILE: Number of bytes written=318169
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=9665
+		HDFS: Number of bytes written=18
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=1616
+		Total time spent by all reduces in occupied slots (ms)=1834
+		Total time spent by all map tasks (ms)=1616
+		Total time spent by all reduce tasks (ms)=1834
+		Total vcore-milliseconds taken by all map tasks=1616
+		Total vcore-milliseconds taken by all reduce tasks=1834
+		Total megabyte-milliseconds taken by all map tasks=1654784
+		Total megabyte-milliseconds taken by all reduce tasks=1878016
+	Map-Reduce Framework
+		Map input records=100
+		Map output records=100
+		Map output bytes=1658
+		Map output materialized bytes=1864
+		Input split bytes=107
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=10
+		Reduce shuffle bytes=1864
+		Reduce input records=100
+		Reduce output records=1
+		Spilled Records=200
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=66
+		CPU time spent (ms)=910
+		Physical memory (bytes) snapshot=447234048
+		Virtual memory (bytes) snapshot=4004605952
+		Total committed heap usage (bytes)=324534272
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=9558
+	File Output Format Counters 
+		Bytes Written=18
+		
+hduser@NaSa-Rig:~$ hadoop fs -ls MRDir1
+20/03/24 16:37:41 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Found 2 items
+-rw-r--r--   1 hduser supergroup          0 2020-03-24 16:28 MRDir1/_SUCCESS
+-rw-r--r--   1 hduser supergroup         18 2020-03-24 16:28 MRDir1/part-r-00000
+
+hduser@NaSa-Rig:~$ hadoop fs -cat MRDir1/part-r-00000
+20/03/24 16:37:54 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+10.10.10.221	3396
+hduser@NaSa-Rig:~$ 
+

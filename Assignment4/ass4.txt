@@ -1,0 +1,1241 @@
+hduser@DBMSLAB-A3-305-09:~$ hive
+
+Logging initialized using configuration in jar:file:/usr/local/hive/lib/hive-common-2.2.0.jar!/hive-log4j2.properties Async: true
+Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+hive> show tabes;
+NoViableAltException(27@[821:1: ddlStatement : ( createDatabaseStatement | switchDatabaseStatement | dropDatabaseStatement | createTableStatement | dropTableStatement | truncateTableStatement | alterStatement | descStatement | showStatement | metastoreCheck | createViewStatement | dropViewStatement | createFunctionStatement | createMacroStatement | createIndexStatement | dropIndexStatement | dropFunctionStatement | reloadFunctionStatement | dropMacroStatement | analyzeStatement | lockStatement | unlockStatement | lockDatabase | unlockDatabase | createRoleStatement | dropRoleStatement | ( grantPrivileges )=> grantPrivileges | ( revokePrivileges )=> revokePrivileges | showGrants | showRoleGrants | showRolePrincipals | showRoles | grantRole | revokeRole | setRole | showCurrentRole | abortTransactionStatement );])
+	at org.antlr.runtime.DFA.noViableAlt(DFA.java:158)
+	at org.antlr.runtime.DFA.predict(DFA.java:144)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.ddlStatement(HiveParser.java:3767)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.execStatement(HiveParser.java:1870)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.statement(HiveParser.java:1213)
+	at org.apache.hadoop.hive.ql.parse.ParseDriver.parse(ParseDriver.java:204)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:77)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:70)
+	at org.apache.hadoop.hive.ql.Driver.compile(Driver.java:453)
+	at org.apache.hadoop.hive.ql.Driver.compileInternal(Driver.java:1252)
+	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1394)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1181)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1171)
+	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:233)
+	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:184)
+	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:403)
+	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:821)
+	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:759)
+	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:686)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:234)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:148)
+FAILED: ParseException line 1:5 cannot recognize input near 'show' 'tabes' '<EOF>' in ddl statement
+hive> show tables;
+OK
+default__hbase_flight_new_hbasefltnew_index__
+emp_temp
+empdb
+empdb1
+empdbnew
+hbase_flight33130
+hbase_flight_new
+hbase_flight_new33130
+hbase_student
+Time taken: 0.3 seconds, Fetched: 9 row(s)
+hive> 
+    > 
+    > hduser@DBMSLAB-A3-305-09:~$ 
+hduser@DBMSLAB-A3-305-09:~$ 
+hduser@DBMSLAB-A3-305-09:~$ hive
+
+Logging initialized using configuration in jar:file:/usr/local/hive/lib/hive-common-2.2.0.jar!/hive-log4j2.properties Async: true
+Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5min	10
+2	pune	kolkata	7.00a.m.	7.30a.m.	1min	4
+3	mumbai	pune	12.30p.m.	12.45p.m.	1min	5
+Time taken: 1.692 seconds, Fetched: 3 row(s)
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5min	10
+2	pune	kolkata	7.00a.m.	7.30a.m.	1min	4
+3	mumbai	pune	12.30p.m.	12.45p.m.	1min	5
+Time taken: 0.273 seconds, Fetched: 3 row(s)
+hive> drop table hbase_flight_new;
+OK
+Time taken: 1.407 seconds
+hive> show tables;
+OK
+emp_temp
+empdb
+empdb1
+empdbnew
+hbase_flight33130
+hbase_flight_new33130
+hbase_student
+Time taken: 0.063 seconds, Fetched: 7 row(s)
+hive> 
+    > 
+    > 
+    > CREATE external TABLE hbase_flight_new(fno int, fsource string,fdest string,fsh_at string,fsh_dt string,fsch_delay string,delay int,date int,month int,year int) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'WITH SERDEPROPERTIES("hbase.columns.mapping"=":key,finfo:source,finfo:destination,fsch:at,fsch:dt,fsch:delay,delay:dl,date:date,date:month,date:year") TBLPROPERTIES ("hbase.table.name" = "flight");
+FailedPredicateException(identifier,{useSQL11ReservedKeywordsForIdentifier()}?)
+	at org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.identifier(HiveParser_IdentifiersParser.java:13717)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.identifier(HiveParser.java:55168)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.columnNameType(HiveParser.java:43457)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.columnNameTypeOrPKOrFK(HiveParser.java:43714)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.columnNameTypeOrPKOrFKList(HiveParser.java:39361)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.createTableStatement(HiveParser.java:6317)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.ddlStatement(HiveParser.java:3821)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.execStatement(HiveParser.java:1870)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.statement(HiveParser.java:1213)
+	at org.apache.hadoop.hive.ql.parse.ParseDriver.parse(ParseDriver.java:204)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:77)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:70)
+	at org.apache.hadoop.hive.ql.Driver.compile(Driver.java:453)
+	at org.apache.hadoop.hive.ql.Driver.compileInternal(Driver.java:1252)
+	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1394)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1181)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1171)
+	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:233)
+	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:184)
+	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:403)
+	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:821)
+	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:759)
+	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:686)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:234)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:148)
+FAILED: ParseException line 1:132 Failed to recognize predicate 'date'. Failed rule: 'identifier' in column specification
+hive> 
+    > CREATE external TABLE hbase_flight_new(fno int, fsource string,fdest string,fsh_at string,fsh_dt string,fsch_delay string,delay int,date1 int) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'WITH SERDEPROPERTIES("hbase.columns.mapping"=":key,finfo:source,finfo:destination,fsch:at,fsch:dt,fsch:delay,delay:dl,date1:date1") TBLPROPERTIES ("hbase.table.name" = "flight");
+OK
+Time taken: 0.397 seconds
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5min	10	NULL
+2	pune	kolkata	7.00a.m.	7.30a.m.	1min	4	NULL
+3	mumbai	pune	12.30p.m.	12.45p.m.	1min	5	NULL
+Time taken: 0.206 seconds, Fetched: 3 row(s)
+hive> drop table hbase_flight_new;
+OK
+Time taken: 0.103 seconds
+hive> show tables;
+OK
+emp_temp
+empdb
+empdb1
+empdbnew
+hbase_flight33130
+hbase_flight_new33130
+hbase_student
+Time taken: 0.032 seconds, Fetched: 7 row(s)
+hive> CREATE external TABLE hbase_flight_new(fno int, fsource string,fdest string,fsh_at string,fsh_dt string,fsch_delay string,delay int,date1 string) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'WITH SERDEPROPERTIES("hbase.columns.mapping"=":key,finfo:source,finfo:destination,fsch:at,fsch:dt,fsch:delay,delay:dl,date1:date1") TBLPROPERTIES ("hbase.table.name" = "flight");
+OK
+Time taken: 0.092 seconds
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5min	10	2020-01-23
+2	pune	kolkata	7.00a.m.	7.30a.m.	1min	4	2019-11-20
+3	mumbai	pune	12.30p.m.	12.45p.m.	1min	5	2020-01-23
+Time taken: 0.16 seconds, Fetched: 3 row(s)
+hive> drop table hbase_flight_new;
+OK
+Time taken: 0.082 seconds
+hive> CREATE external TABLE hbase_flight_new(fno int, fsource string,fdest string,fsh_at string,fsh_dt string,fsch_delay string,delay int,date1 date) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'WITH SERDEPROPERTIES("hbase.columns.mapping"=":key,finfo:source,finfo:destination,fsch:at,fsch:dt,fsch:delay,delay:dl,date1:date1") TBLPROPERTIES ("hbase.table.name" = "flight");
+OK
+Time taken: 0.087 seconds
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5min	10	2020-01-23
+2	pune	kolkata	7.00a.m.	7.30a.m.	1min	4	2019-11-20
+3	mumbai	pune	12.30p.m.	12.45p.m.	1min	5	2020-01-23
+Time taken: 0.199 seconds, Fetched: 3 row(s)
+hive> SELECT DATE_FORMAT("2017-06-15", "%Y"); 
+OK
+%2017
+Time taken: 0.192 seconds, Fetched: 1 row(s)
+hive> SELECT DATE_FORMAT("2017-06-15", "Y"); 
+OK
+2017
+Time taken: 0.14 seconds, Fetched: 1 row(s)
+hive> select DATE_FORMAT(date1) from hbase_flight_new  ;
+FAILED: SemanticException [Error 10015]: Line 1:7 Arguments length mismatch 'date1': date_format requires 2 argument(s), got 1
+hive> select DATE_FORMAT(date1,"Y") from hbase_flight_new  ;
+OK
+2020
+2019
+2020
+Time taken: 0.313 seconds, Fetched: 3 row(s)
+hive> 
+    > 
+    > select DATE_FORMAT(date1) from hbase_flight_new  ;
+FAILED: SemanticException [Error 10015]: Line 1:7 Arguments length mismatch 'date1': date_format requires 2 argument(s), got 1
+hive> select sum(delay) from hbase_flight_new where date1 = CURDATE();
+FAILED: SemanticException [Error 10011]: Line 1:54 Invalid function 'CURDATE'
+hive> select sum(delay) from hbase_flight_new having date1 = CURDATE();
+FAILED: SemanticException [Error 10011]: Invalid function CURDATE
+hive> NOW();
+NoViableAltException(27@[])
+	at org.apache.hadoop.hive.ql.parse.HiveParser.statement(HiveParser.java:1175)
+	at org.apache.hadoop.hive.ql.parse.ParseDriver.parse(ParseDriver.java:204)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:77)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:70)
+	at org.apache.hadoop.hive.ql.Driver.compile(Driver.java:453)
+	at org.apache.hadoop.hive.ql.Driver.compileInternal(Driver.java:1252)
+	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1394)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1181)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1171)
+	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:233)
+	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:184)
+	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:403)
+	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:821)
+	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:759)
+	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:686)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:234)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:148)
+FAILED: ParseException line 1:0 cannot recognize input near 'NOW' '(' ')'
+hive> 
+    > select DATE_FORMAT(date1) from hbase_flight_new  ;
+FAILED: SemanticException [Error 10015]: Line 1:7 Arguments length mismatch 'date1': date_format requires 2 argument(s), got 1
+hive> select DATE_FORMAT(date1,"Y") from hbase_flight_new  ;
+OK
+2020
+2019
+2020
+Time taken: 0.151 seconds, Fetched: 3 row(s)
+hive> select DATE_FORMAT(date1,"Y") from hbase_flight_new where date1 = '2020-01-23' ;
+OK
+2020
+2020
+Time taken: 0.184 seconds, Fetched: 2 row(s)
+hive> select sum(delay) from hbase_flight_new where date1 = '2020-01-23' ;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hduser_20200123112811_fae5f4ba-4fe5-4116-acad-ee7b129362b9
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0001, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0001/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0001
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2020-01-23 11:28:24,969 Stage-1 map = 0%,  reduce = 0%
+2020-01-23 11:28:29,142 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.09 sec
+2020-01-23 11:28:34,377 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 3.5 sec
+MapReduce Total cumulative CPU time: 3 seconds 500 msec
+Ended Job = job_1579756031715_0001
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 3.5 sec   HDFS Read: 10598 HDFS Write: 102 SUCCESS
+Total MapReduce CPU Time Spent: 3 seconds 500 msec
+OK
+15
+Time taken: 24.103 seconds, Fetched: 1 row(s)
+hive> select from hbase_flight_new  ;
+NoViableAltException(130@[])
+	at org.apache.hadoop.hive.ql.parse.HiveParser_SelectClauseParser.selectClause(HiveParser_SelectClauseParser.java:1196)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.selectClause(HiveParser.java:55088)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.atomSelectStatement(HiveParser.java:47517)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.selectStatement(HiveParser.java:47854)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.regularBody(HiveParser.java:47414)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.queryStatementExpressionBody(HiveParser.java:46425)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.queryStatementExpression(HiveParser.java:46294)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.execStatement(HiveParser.java:1765)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.statement(HiveParser.java:1213)
+	at org.apache.hadoop.hive.ql.parse.ParseDriver.parse(ParseDriver.java:204)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:77)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:70)
+	at org.apache.hadoop.hive.ql.Driver.compile(Driver.java:453)
+	at org.apache.hadoop.hive.ql.Driver.compileInternal(Driver.java:1252)
+	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1394)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1181)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1171)
+	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:233)
+	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:184)
+	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:403)
+	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:821)
+	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:759)
+	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:686)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:234)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:148)
+FAILED: ParseException line 1:7 cannot recognize input near 'from' 'hbase_flight_new' '<EOF>' in select clause
+hive> select from hbase_flight_new;
+NoViableAltException(130@[])
+	at org.apache.hadoop.hive.ql.parse.HiveParser_SelectClauseParser.selectClause(HiveParser_SelectClauseParser.java:1196)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.selectClause(HiveParser.java:55088)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.atomSelectStatement(HiveParser.java:47517)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.selectStatement(HiveParser.java:47854)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.regularBody(HiveParser.java:47414)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.queryStatementExpressionBody(HiveParser.java:46425)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.queryStatementExpression(HiveParser.java:46294)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.execStatement(HiveParser.java:1765)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.statement(HiveParser.java:1213)
+	at org.apache.hadoop.hive.ql.parse.ParseDriver.parse(ParseDriver.java:204)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:77)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:70)
+	at org.apache.hadoop.hive.ql.Driver.compile(Driver.java:453)
+	at org.apache.hadoop.hive.ql.Driver.compileInternal(Driver.java:1252)
+	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1394)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1181)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1171)
+	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:233)
+	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:184)
+	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:403)
+	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:821)
+	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:759)
+	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:686)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:234)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:148)
+FAILED: ParseException line 1:7 cannot recognize input near 'from' 'hbase_flight_new' '<EOF>' in select clause
+hive> select from hbase_flight_new;
+NoViableAltException(130@[])
+	at org.apache.hadoop.hive.ql.parse.HiveParser_SelectClauseParser.selectClause(HiveParser_SelectClauseParser.java:1196)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.selectClause(HiveParser.java:55088)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.atomSelectStatement(HiveParser.java:47517)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.selectStatement(HiveParser.java:47854)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.regularBody(HiveParser.java:47414)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.queryStatementExpressionBody(HiveParser.java:46425)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.queryStatementExpression(HiveParser.java:46294)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.execStatement(HiveParser.java:1765)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.statement(HiveParser.java:1213)
+	at org.apache.hadoop.hive.ql.parse.ParseDriver.parse(ParseDriver.java:204)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:77)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:70)
+	at org.apache.hadoop.hive.ql.Driver.compile(Driver.java:453)
+	at org.apache.hadoop.hive.ql.Driver.compileInternal(Driver.java:1252)
+	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1394)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1181)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1171)
+	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:233)
+	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:184)
+	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:403)
+	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:821)
+	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:759)
+	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:686)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:234)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:148)
+FAILED: ParseException line 1:7 cannot recognize input near 'from' 'hbase_flight_new' '<EOF>' in select clause
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5min	10	2020-01-23
+2	pune	kolkata	7.00a.m.	7.30a.m.	1min	4	2019-11-20
+3	mumbai	pune	12.30p.m.	12.45p.m.	1min	5	2020-01-23
+4	pune	mumbai	10.25a.m.	11.25a.m.	NULL	12	NULL
+Time taken: 0.233 seconds, Fetched: 4 row(s)
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5	10	2020-01-23
+2	pune	kolkata	7.00a.m.	7.30a.m.	10	4	2019-11-20
+3	mumbai	pune	12.30p.m.	12.45p.m.	15	5	2020-01-23
+4	pune	mumbai	10.25a.m.	11.25a.m.	1	12	2020-01-19
+Time taken: 0.142 seconds, Fetched: 4 row(s)
+hive> select sum(delay) from hbase_flight_new where date1 = '2020-01-23' ;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hduser_20200123113734_8129a33b-8ee3-427e-88f4-0ba6601ce65d
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0002, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0002/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0002
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2020-01-23 11:37:46,961 Stage-1 map = 0%,  reduce = 0%
+2020-01-23 11:37:51,079 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.25 sec
+2020-01-23 11:37:56,213 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 3.77 sec
+MapReduce Total cumulative CPU time: 3 seconds 770 msec
+Ended Job = job_1579756031715_0002
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 3.77 sec   HDFS Read: 10697 HDFS Write: 102 SUCCESS
+Total MapReduce CPU Time Spent: 3 seconds 770 msec
+OK
+15
+Time taken: 23.271 seconds, Fetched: 1 row(s)
+hive> select sum(fsch_delay) from hbase_flight_new where date1 = '2020-01-23' ;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hduser_20200123113845_efd63388-7e98-425a-99ae-9c5fbd64a8ed
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0003, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0003/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0003
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2020-01-23 11:38:51,009 Stage-1 map = 0%,  reduce = 0%
+2020-01-23 11:38:56,188 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.19 sec
+2020-01-23 11:39:00,314 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 3.47 sec
+MapReduce Total cumulative CPU time: 3 seconds 470 msec
+Ended Job = job_1579756031715_0003
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 3.47 sec   HDFS Read: 10911 HDFS Write: 104 SUCCESS
+Total MapReduce CPU Time Spent: 3 seconds 470 msec
+OK
+20.0
+Time taken: 15.788 seconds, Fetched: 1 row(s)
+hive> select avg(fsch_delay) from hbase_flight_new where date1 in (select date1 from hbase_flight_new where YEAR(date1) in (2019));
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hduser_20200123114232_0852d375-b552-44a0-a4ff-277cfe372d5a
+Total jobs = 2
+Launching Job 1 out of 2
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0004, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0004/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0004
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 1
+2020-01-23 11:42:41,221 Stage-3 map = 0%,  reduce = 0%
+2020-01-23 11:42:46,388 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 2.08 sec
+2020-01-23 11:42:50,488 Stage-3 map = 100%,  reduce = 100%, Cumulative CPU 3.03 sec
+MapReduce Total cumulative CPU time: 3 seconds 30 msec
+Ended Job = job_1579756031715_0004
+2020-01-23 11:42:57	Starting to launch local task to process map join;	maximum memory = 477626368
+2020-01-23 11:42:58	Dump the side-table for tag: 0 with group count: 1 into file: file:/tmp/hduser/c2b45891-8a89-48fc-8bb4-0a1c84bc8ca3/hive_2020-01-23_11-42-32_313_8617545951525119135-1/-local-10006/HashTable-Stage-2/MapJoin-mapfile00--.hashtable
+2020-01-23 11:42:59	Uploaded 1 File to: file:/tmp/hduser/c2b45891-8a89-48fc-8bb4-0a1c84bc8ca3/hive_2020-01-23_11-42-32_313_8617545951525119135-1/-local-10006/HashTable-Stage-2/MapJoin-mapfile00--.hashtable (284 bytes)
+2020-01-23 11:42:59	End of local task; Time Taken: 1.408 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 2 out of 2
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0005, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0005/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0005
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2020-01-23 11:43:06,630 Stage-2 map = 0%,  reduce = 0%
+2020-01-23 11:43:09,708 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 0.92 sec
+2020-01-23 11:43:13,831 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.05 sec
+MapReduce Total cumulative CPU time: 2 seconds 50 msec
+Ended Job = job_1579756031715_0005
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1  Reduce: 1   Cumulative CPU: 3.03 sec   HDFS Read: 9220 HDFS Write: 116 SUCCESS
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.05 sec   HDFS Read: 11427 HDFS Write: 104 SUCCESS
+Total MapReduce CPU Time Spent: 5 seconds 80 msec
+OK
+10.0
+Time taken: 42.616 seconds, Fetched: 1 row(s)
+hive> select avg(fsch_delay) from hbase_flight_new where date1 in (select date1 from hbase_flight_new where YEAR(date1) in (2020));
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hduser_20200123114340_5ae0a94a-b80c-4a26-9189-04f28fd3b188
+Total jobs = 2
+Launching Job 1 out of 2
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0006, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0006/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0006
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 1
+2020-01-23 11:43:49,244 Stage-3 map = 0%,  reduce = 0%
+2020-01-23 11:43:53,355 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 2.14 sec
+2020-01-23 11:43:57,483 Stage-3 map = 100%,  reduce = 100%, Cumulative CPU 3.08 sec
+MapReduce Total cumulative CPU time: 3 seconds 80 msec
+Ended Job = job_1579756031715_0006
+2020-01-23 11:44:01	Starting to launch local task to process map join;	maximum memory = 477626368
+2020-01-23 11:44:02	Dump the side-table for tag: 0 with group count: 2 into file: file:/tmp/hduser/c2b45891-8a89-48fc-8bb4-0a1c84bc8ca3/hive_2020-01-23_11-43-40_441_4259657890055584263-1/-local-10006/HashTable-Stage-2/MapJoin-mapfile10--.hashtable
+2020-01-23 11:44:02	Uploaded 1 File to: file:/tmp/hduser/c2b45891-8a89-48fc-8bb4-0a1c84bc8ca3/hive_2020-01-23_11-43-40_441_4259657890055584263-1/-local-10006/HashTable-Stage-2/MapJoin-mapfile10--.hashtable (314 bytes)
+2020-01-23 11:44:02	End of local task; Time Taken: 1.337 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 2 out of 2
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0007, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0007/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0007
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2020-01-23 11:44:11,773 Stage-2 map = 0%,  reduce = 0%
+2020-01-23 11:44:15,908 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 0.92 sec
+2020-01-23 11:44:20,009 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.07 sec
+MapReduce Total cumulative CPU time: 2 seconds 70 msec
+Ended Job = job_1579756031715_0007
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1  Reduce: 1   Cumulative CPU: 3.08 sec   HDFS Read: 9220 HDFS Write: 136 SUCCESS
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.07 sec   HDFS Read: 11447 HDFS Write: 103 SUCCESS
+Total MapReduce CPU Time Spent: 5 seconds 150 msec
+OK
+7.0
+Time taken: 40.639 seconds, Fetched: 1 row(s)
+hive> drop table 'hbase_flight_new';
+NoViableAltException(346@[217:1: tableName : (db= identifier DOT tab= identifier -> ^( TOK_TABNAME $db $tab) |tab= identifier -> ^( TOK_TABNAME $tab) );])
+	at org.antlr.runtime.DFA.noViableAlt(DFA.java:158)
+	at org.antlr.runtime.DFA.predict(DFA.java:116)
+	at org.apache.hadoop.hive.ql.parse.HiveParser_FromClauseParser.tableName(HiveParser_FromClauseParser.java:6992)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.tableName(HiveParser.java:55211)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.dropTableStatement(HiveParser.java:8236)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.ddlStatement(HiveParser.java:3836)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.execStatement(HiveParser.java:1870)
+	at org.apache.hadoop.hive.ql.parse.HiveParser.statement(HiveParser.java:1213)
+	at org.apache.hadoop.hive.ql.parse.ParseDriver.parse(ParseDriver.java:204)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:77)
+	at org.apache.hadoop.hive.ql.parse.ParseUtils.parse(ParseUtils.java:70)
+	at org.apache.hadoop.hive.ql.Driver.compile(Driver.java:453)
+	at org.apache.hadoop.hive.ql.Driver.compileInternal(Driver.java:1252)
+	at org.apache.hadoop.hive.ql.Driver.runInternal(Driver.java:1394)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1181)
+	at org.apache.hadoop.hive.ql.Driver.run(Driver.java:1171)
+	at org.apache.hadoop.hive.cli.CliDriver.processLocalCmd(CliDriver.java:233)
+	at org.apache.hadoop.hive.cli.CliDriver.processCmd(CliDriver.java:184)
+	at org.apache.hadoop.hive.cli.CliDriver.processLine(CliDriver.java:403)
+	at org.apache.hadoop.hive.cli.CliDriver.executeDriver(CliDriver.java:821)
+	at org.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:759)
+	at org.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:686)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:234)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:148)
+FAILED: ParseException line 1:11 cannot recognize input near ''hbase_flight_new'' '<EOF>' '<EOF>' in table name
+hive> drop table hbase_flight_new;
+OK
+Time taken: 0.094 seconds
+hive> CREATE external TABLE hbase_flight_new(fno int, fsource string,fdest string,fsh_at string,fsh_dt string,fsch_delay int,date1 string) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'WITH SERDEPROPERTIES("hbase.columns.mapping"=":key,finfo:source,finfo:destination,fsch:at,fsch:dt,fsch:delay,date1:date1") TBLPROPERTIES ("hbase.table.name" = "flight");
+OK
+Time taken: 0.077 seconds
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5	2020-01-23
+2	pune	kolkata	7.00a.m.	7.30a.m.	10	2019-11-20
+3	mumbai	pune	12.30p.m.	12.45p.m.	15	2020-01-23
+4	pune	mumbai	10.25a.m.	11.25a.m.	1	2020-01-19
+Time taken: 0.183 seconds, Fetched: 4 row(s)
+hive> select avg(fsch_delay) from hbase_flight_new where date1 in (select date1 from hbase_flight_new where YEAR(date1) in (2020));
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hduser_20200123114622_1226a2b3-08e2-46a9-b578-9ff1c6359ba8
+Total jobs = 2
+Launching Job 1 out of 2
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0008, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0008/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0008
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 1
+2020-01-23 11:46:32,122 Stage-3 map = 0%,  reduce = 0%
+2020-01-23 11:46:36,263 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 2.23 sec
+2020-01-23 11:46:40,365 Stage-3 map = 100%,  reduce = 100%, Cumulative CPU 3.15 sec
+MapReduce Total cumulative CPU time: 3 seconds 150 msec
+Ended Job = job_1579756031715_0008
+2020-01-23 11:46:45	Starting to launch local task to process map join;	maximum memory = 477626368
+2020-01-23 11:46:46	Dump the side-table for tag: 0 with group count: 2 into file: file:/tmp/hduser/c2b45891-8a89-48fc-8bb4-0a1c84bc8ca3/hive_2020-01-23_11-46-22_970_7149745409623753425-1/-local-10006/HashTable-Stage-2/MapJoin-mapfile20--.hashtable
+2020-01-23 11:46:47	Uploaded 1 File to: file:/tmp/hduser/c2b45891-8a89-48fc-8bb4-0a1c84bc8ca3/hive_2020-01-23_11-46-22_970_7149745409623753425-1/-local-10006/HashTable-Stage-2/MapJoin-mapfile20--.hashtable (326 bytes)
+2020-01-23 11:46:47	End of local task; Time Taken: 1.379 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 2 out of 2
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0009, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0009/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0009
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2020-01-23 11:46:58,459 Stage-2 map = 0%,  reduce = 0%
+2020-01-23 11:47:02,602 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 0.93 sec
+2020-01-23 11:47:05,677 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.08 sec
+MapReduce Total cumulative CPU time: 2 seconds 80 msec
+Ended Job = job_1579756031715_0009
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1  Reduce: 1   Cumulative CPU: 3.15 sec   HDFS Read: 8890 HDFS Write: 152 SUCCESS
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.08 sec   HDFS Read: 11371 HDFS Write: 103 SUCCESS
+Total MapReduce CPU Time Spent: 5 seconds 230 msec
+OK
+7.0
+Time taken: 44.798 seconds, Fetched: 1 row(s)
+hive> select avg(fsch_delay) from hbase_flight_new where date1 in (select date1 from hbase_flight_new where YEAR(date1) in (2018));
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hduser_20200123120439_61139203-5cb8-479d-8cfb-7c57f1ce3099
+Total jobs = 2
+Launching Job 1 out of 2
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0010, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0010/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0010
+Hadoop job information for Stage-3: number of mappers: 1; number of reducers: 1
+2020-01-23 12:04:50,127 Stage-3 map = 0%,  reduce = 0%
+2020-01-23 12:04:54,238 Stage-3 map = 100%,  reduce = 0%, Cumulative CPU 2.02 sec
+2020-01-23 12:04:58,336 Stage-3 map = 100%,  reduce = 100%, Cumulative CPU 2.95 sec
+MapReduce Total cumulative CPU time: 2 seconds 950 msec
+Ended Job = job_1579756031715_0010
+2020-01-23 12:05:03	Starting to launch local task to process map join;	maximum memory = 477626368
+2020-01-23 12:05:05	Dump the side-table for tag: 0 with group count: 1 into file: file:/tmp/hduser/c2b45891-8a89-48fc-8bb4-0a1c84bc8ca3/hive_2020-01-23_12-04-39_476_6027077184070578971-1/-local-10006/HashTable-Stage-2/MapJoin-mapfile30--.hashtable
+2020-01-23 12:05:05	Uploaded 1 File to: file:/tmp/hduser/c2b45891-8a89-48fc-8bb4-0a1c84bc8ca3/hive_2020-01-23_12-04-39_476_6027077184070578971-1/-local-10006/HashTable-Stage-2/MapJoin-mapfile30--.hashtable (290 bytes)
+2020-01-23 12:05:05	End of local task; Time Taken: 1.462 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 2 out of 2
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1579756031715_0011, Tracking URL = http://localhost:8088/proxy/application_1579756031715_0011/
+Kill Command = /usr/local/hadoop/bin/hadoop job  -kill job_1579756031715_0011
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2020-01-23 12:05:18,196 Stage-2 map = 0%,  reduce = 0%
+2020-01-23 12:05:22,330 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 1.01 sec
+2020-01-23 12:05:25,402 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 2.16 sec
+MapReduce Total cumulative CPU time: 2 seconds 160 msec
+Ended Job = job_1579756031715_0011
+MapReduce Jobs Launched: 
+Stage-Stage-3: Map: 1  Reduce: 1   Cumulative CPU: 2.95 sec   HDFS Read: 8890 HDFS Write: 124 SUCCESS
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 2.16 sec   HDFS Read: 11343 HDFS Write: 103 SUCCESS
+Total MapReduce CPU Time Spent: 5 seconds 110 msec
+OK
+6.0
+Time taken: 48.016 seconds, Fetched: 1 row(s)
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5	2020-01-23
+2	pune	kolkata	7.00a.m.	7.30a.m.	10	2019-11-20
+3	mumbai	pune	12.30p.m.	12.45p.m.	15	2020-01-23
+4	pune	mumbai	10.25a.m.	11.25a.m.	1	2020-01-19
+5	mumbai	delhi	12.25a.m.	1.25p.m.	50	2019-08-11
+6	delhi	udaipur	12.50a.m.	2.50a.m.	5	2019-08-24
+7	agra	pune	1.50p.m.	2.50p.m.	6	2018-09-29
+Time taken: 0.124 seconds, Fetched: 7 row(s)
+hive> 
+=========================================================================================================================================================
+
+
+
+hduser@DBMSLAB-A3-305-09:~$ start-all.sh
+This script is Deprecated. Instead use start-dfs.sh and start-yarn.sh
+20/01/23 10:36:56 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Starting namenodes on [localhost]
+localhost: starting namenode, logging to /usr/local/hadoop/logs/hadoop-hduser-namenode-DBMSLAB-A3-305-09.out
+localhost: starting datanode, logging to /usr/local/hadoop/logs/hadoop-hduser-datanode-DBMSLAB-A3-305-09.out
+Starting secondary namenodes [0.0.0.0]
+0.0.0.0: starting secondarynamenode, logging to /usr/local/hadoop/logs/hadoop-hduser-secondarynamenode-DBMSLAB-A3-305-09.out
+20/01/23 10:37:10 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+starting yarn daemons
+starting resourcemanager, logging to /usr/local/hadoop/logs/yarn-hduser-resourcemanager-DBMSLAB-A3-305-09.out
+localhost: starting nodemanager, logging to /usr/local/hadoop/logs/yarn-hduser-nodemanager-DBMSLAB-A3-305-09.out
+hduser@DBMSLAB-A3-305-09:~$ start-hbase.sh
+localhost: starting zookeeper, logging to /usr/local/hbase/bin/../logs/hbase-hduser-zookeeper-DBMSLAB-A3-305-09.out
+starting master, logging to /usr/local/hbase/logs/hbase-hduser-master-DBMSLAB-A3-305-09.out
+OpenJDK 64-Bit Server VM warning: ignoring option PermSize=128m; support was removed in 8.0
+OpenJDK 64-Bit Server VM warning: ignoring option MaxPermSize=128m; support was removed in 8.0
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/hbase/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+starting regionserver, logging to /usr/local/hbase/logs/hbase-hduser-1-regionserver-DBMSLAB-A3-305-09.out
+hduser@DBMSLAB-A3-305-09:~$ jps
+9955 DataNode
+11171 HMaster
+11093 HQuorumPeer
+9783 NameNode
+10167 SecondaryNameNode
+10346 ResourceManager
+11611 Jps
+10668 NodeManager
+11325 HRegionServer
+hduser@DBMSLAB-A3-305-09:~$ hive
+
+Logging initialized using configuration in jar:file:/usr/local/hive/lib/hive-common-2.2.0.jar!/hive-log4j2.properties Async: true
+Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+hive> select * from hbase_flight_new;
+OK
+1	pune	mumbai	10.25a.m.	11.25a.m.	5min	10
+2	pune	kolkata	7.00a.m.	7.30a.m.	1min	4
+3	mumbai	pune	12.30p.m.	12.45p.m.	1min	5
+Time taken: 2.39 seconds, Fetched: 3 row(s)
+hive> hduser@DBMSLAB-A3-305-09:~$ 
+hduser@DBMSLAB-A3-305-09:~$ 
+hduser@DBMSLAB-A3-305-09:~$ start-hbase.sh
+localhost: zookeeper running as process 11093. Stop it first.
+master running as process 11171. Stop it first.
+regionserver running as process 11325. Stop it first.
+hduser@DBMSLAB-A3-305-09:~$ jps
+9955 DataNode
+11171 HMaster
+11093 HQuorumPeer
+9783 NameNode
+12967 Jps
+10167 SecondaryNameNode
+10346 ResourceManager
+10668 NodeManager
+11325 HRegionServer
+hduser@DBMSLAB-A3-305-09:~$ hbae shell
+No command 'hbae' found, did you mean:
+ Command 'hbal' from package 'ganeti-htools' (universe)
+ Command 'hbal' from package 'ganeti' (universe)
+hbae: command not found
+hduser@DBMSLAB-A3-305-09:~$ hbase shell
+2020-01-23 10:40:31,191 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/hbase/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 1.2.6, rUnknown, Mon May 29 02:25:32 CDT 2017
+
+hbase(main):001:0> list
+TABLE                                                                           
+Student_table                                                                   
+emphive                                                                         
+emphive33130                                                                    
+flight                                                                          
+flight33130                                                                     
+sts                                                                             
+student                                                                         
+7 row(s) in 0.1040 seconds
+
+=> ["Student_table", "emphive", "emphive33130", "flight", "flight33130", "sts", "student"]
+hbase(main):002:0> scan 'flight'
+ROW                   COLUMN+CELL                                               
+ 1                    column=delay:dl, timestamp=1579327690335, value=10        
+ 1                    column=finfo:dest, timestamp=1579508129352, value=mumbai  
+ 1                    column=finfo:destination, timestamp=1579327614180, value=m
+                      umbai                                                     
+ 1                    column=finfo:source, timestamp=1579327595961, value=pune  
+ 1                    column=fsch:at, timestamp=1579327648740, value=10.25a.m.  
+ 1                    column=fsch:delay, timestamp=1579327677300, value=5min    
+ 1                    column=fsch:dt, timestamp=1579327658708, value=11.25a.m.  
+ 2                    column=delay:dl, timestamp=1579327714444, value=4         
+ 2                    column=finfo:destination, timestamp=1579327776317, value=k
+                      olkata                                                    
+ 2                    column=finfo:source, timestamp=1579327785632, value=pune  
+ 2                    column=fsch:at, timestamp=1579327762717, value=7.00a.m.   
+ 2                    column=fsch:delay, timestamp=1579327727150, value=1min    
+ 2                    column=fsch:dt, timestamp=1579327745423, value=7.30a.m.   
+ 3                    column=delay:dl, timestamp=1579327891740, value=5         
+ 3                    column=finfo:destination, timestamp=1579327839417, value=p
+                      une                                                       
+ 3                    column=finfo:source, timestamp=1579327798764, value=mumbai
+ 3                    column=fsch:at, timestamp=1579327855491, value=12.30p.m.  
+ 3                    column=fsch:delay, timestamp=1579327881724, value=1min    
+ 3                    column=fsch:dt, timestamp=1579327871037, value=12.45p.m.  
+3 row(s) in 0.0760 seconds
+
+hbase(main):003:0> describe 'flight'
+Table flight is ENABLED                                                                                                                                                  
+flight                                                                                                                                                                   
+COLUMN FAMILIES DESCRIPTION                                                                                                                                              
+{NAME => 'delay', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'finfo', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'fsch', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION
+ => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                   
+3 row(s) in 0.0310 seconds
+
+hbase(main):004:0> alter 'flight', NAME=>'date'
+Updating all regions with the new schema...
+1/1 regions updated.
+Done.
+0 row(s) in 2.8680 seconds
+
+hbase(main):005:0> describe 'flight'
+Table flight is ENABLED                                                                                                                                                  
+flight                                                                                                                                                                   
+COLUMN FAMILIES DESCRIPTION                                                                                                                                              
+{NAME => 'date', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION
+ => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                   
+{NAME => 'delay', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'finfo', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'fsch', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION
+ => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                   
+4 row(s) in 0.0110 seconds
+
+hbase(main):006:0> put 'flight',1,'date:date','23'
+0 row(s) in 0.0360 seconds
+
+hbase(main):007:0> put 'flight',1,'date:month','1'
+0 row(s) in 0.0060 seconds
+
+hbase(main):008:0> put 'flight',1,'date:year','2020'
+0 row(s) in 0.0030 seconds
+
+hbase(main):009:0> scan 'flight'
+ROW                                         COLUMN+CELL                                                                                                                  
+ 1                                          column=date:date, timestamp=1579756986591, value=23                                                                          
+ 1                                          column=date:month, timestamp=1579756997512, value=1                                                                          
+ 1                                          column=date:year, timestamp=1579757007101, value=2020                                                                        
+ 1                                          column=delay:dl, timestamp=1579327690335, value=10                                                                           
+ 1                                          column=finfo:dest, timestamp=1579508129352, value=mumbai                                                                     
+ 1                                          column=finfo:destination, timestamp=1579327614180, value=mumbai                                                              
+ 1                                          column=finfo:source, timestamp=1579327595961, value=pune                                                                     
+ 1                                          column=fsch:at, timestamp=1579327648740, value=10.25a.m.                                                                     
+ 1                                          column=fsch:delay, timestamp=1579327677300, value=5min                                                                       
+ 1                                          column=fsch:dt, timestamp=1579327658708, value=11.25a.m.                                                                     
+ 2                                          column=delay:dl, timestamp=1579327714444, value=4                                                                            
+ 2                                          column=finfo:destination, timestamp=1579327776317, value=kolkata                                                             
+ 2                                          column=finfo:source, timestamp=1579327785632, value=pune                                                                     
+ 2                                          column=fsch:at, timestamp=1579327762717, value=7.00a.m.                                                                      
+ 2                                          column=fsch:delay, timestamp=1579327727150, value=1min                                                                       
+ 2                                          column=fsch:dt, timestamp=1579327745423, value=7.30a.m.                                                                      
+ 3                                          column=delay:dl, timestamp=1579327891740, value=5                                                                            
+ 3                                          column=finfo:destination, timestamp=1579327839417, value=pune                                                                
+ 3                                          column=finfo:source, timestamp=1579327798764, value=mumbai                                                                   
+ 3                                          column=fsch:at, timestamp=1579327855491, value=12.30p.m.                                                                     
+ 3                                          column=fsch:delay, timestamp=1579327881724, value=1min                                                                       
+ 3                                          column=fsch:dt, timestamp=1579327871037, value=12.45p.m.                                                                     
+3 row(s) in 0.0180 seconds
+
+hbase(main):010:0> alter 'flight', NAME=>'date', METHOD=>'delete'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 3.4810 seconds
+
+hbase(main):011:0> scan 'flight'
+ROW                                         COLUMN+CELL                                                                                                                  
+ 1                                          column=delay:dl, timestamp=1579327690335, value=10                                                                           
+ 1                                          column=finfo:dest, timestamp=1579508129352, value=mumbai                                                                     
+ 1                                          column=finfo:destination, timestamp=1579327614180, value=mumbai                                                              
+ 1                                          column=finfo:source, timestamp=1579327595961, value=pune                                                                     
+ 1                                          column=fsch:at, timestamp=1579327648740, value=10.25a.m.                                                                     
+ 1                                          column=fsch:delay, timestamp=1579327677300, value=5min                                                                       
+ 1                                          column=fsch:dt, timestamp=1579327658708, value=11.25a.m.                                                                     
+ 2                                          column=delay:dl, timestamp=1579327714444, value=4                                                                            
+ 2                                          column=finfo:destination, timestamp=1579327776317, value=kolkata                                                             
+ 2                                          column=finfo:source, timestamp=1579327785632, value=pune                                                                     
+ 2                                          column=fsch:at, timestamp=1579327762717, value=7.00a.m.                                                                      
+ 2                                          column=fsch:delay, timestamp=1579327727150, value=1min                                                                       
+ 2                                          column=fsch:dt, timestamp=1579327745423, value=7.30a.m.                                                                      
+ 3                                          column=delay:dl, timestamp=1579327891740, value=5                                                                            
+ 3                                          column=finfo:destination, timestamp=1579327839417, value=pune                                                                
+ 3                                          column=finfo:source, timestamp=1579327798764, value=mumbai                                                                   
+ 3                                          column=fsch:at, timestamp=1579327855491, value=12.30p.m.                                                                     
+ 3                                          column=fsch:delay, timestamp=1579327881724, value=1min                                                                       
+ 3                                          column=fsch:dt, timestamp=1579327871037, value=12.45p.m.                                                                     
+3 row(s) in 0.0180 seconds
+
+hbase(main):012:0> describe 'flight'
+Table flight is ENABLED                                                                                                                                                  
+flight                                                                                                                                                                   
+COLUMN FAMILIES DESCRIPTION                                                                                                                                              
+{NAME => 'delay', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'finfo', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'fsch', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION
+ => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                   
+3 row(s) in 0.0150 seconds
+
+hbase(main):013:0> alter 'flight', NAME=>'date1'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 3.2120 seconds
+
+hbase(main):014:0> describe 'flight'
+Table flight is ENABLED                                                                                                                                                  
+flight                                                                                                                                                                   
+COLUMN FAMILIES DESCRIPTION                                                                                                                                              
+{NAME => 'date1', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'delay', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'finfo', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'fsch', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION
+ => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                   
+4 row(s) in 0.0340 seconds
+
+hbase(main):015:0> put 'flight',1,'date1:date1','2020-01-23'
+0 row(s) in 0.0040 seconds
+
+hbase(main):016:0> put 'flight',2,'date1:date1','2019-11-20'
+0 row(s) in 0.0060 seconds
+
+hbase(main):017:0> scan 'flight'
+ROW                                         COLUMN+CELL                                                                                                                  
+ 1                                          column=date1:date1, timestamp=1579758007447, value=2020-01-23                                                                
+ 1                                          column=delay:dl, timestamp=1579327690335, value=10                                                                           
+ 1                                          column=finfo:dest, timestamp=1579508129352, value=mumbai                                                                     
+ 1                                          column=finfo:destination, timestamp=1579327614180, value=mumbai                                                              
+ 1                                          column=finfo:source, timestamp=1579327595961, value=pune                                                                     
+ 1                                          column=fsch:at, timestamp=1579327648740, value=10.25a.m.                                                                     
+ 1                                          column=fsch:delay, timestamp=1579327677300, value=5min                                                                       
+ 1                                          column=fsch:dt, timestamp=1579327658708, value=11.25a.m.                                                                     
+ 2                                          column=date1:date1, timestamp=1579758022404, value=2019-11-20                                                                
+ 2                                          column=delay:dl, timestamp=1579327714444, value=4                                                                            
+ 2                                          column=finfo:destination, timestamp=1579327776317, value=kolkata                                                             
+ 2                                          column=finfo:source, timestamp=1579327785632, value=pune                                                                     
+ 2                                          column=fsch:at, timestamp=1579327762717, value=7.00a.m.                                                                      
+ 2                                          column=fsch:delay, timestamp=1579327727150, value=1min                                                                       
+ 2                                          column=fsch:dt, timestamp=1579327745423, value=7.30a.m.                                                                      
+ 3                                          column=delay:dl, timestamp=1579327891740, value=5                                                                            
+ 3                                          column=finfo:destination, timestamp=1579327839417, value=pune                                                                
+ 3                                          column=finfo:source, timestamp=1579327798764, value=mumbai                                                                   
+ 3                                          column=fsch:at, timestamp=1579327855491, value=12.30p.m.                                                                     
+ 3                                          column=fsch:delay, timestamp=1579327881724, value=1min                                                                       
+ 3                                          column=fsch:dt, timestamp=1579327871037, value=12.45p.m.                                                                     
+3 row(s) in 0.0220 seconds
+
+hbase(main):018:0> put 'flight',3,'date1:date1','2020-01-23'
+0 row(s) in 0.0030 seconds
+
+hbase(main):019:0> scan 'flight'
+ROW                                         COLUMN+CELL                                                                                                                  
+ 1                                          column=date1:date1, timestamp=1579758007447, value=2020-01-23                                                                
+ 1                                          column=delay:dl, timestamp=1579327690335, value=10                                                                           
+ 1                                          column=finfo:dest, timestamp=1579508129352, value=mumbai                                                                     
+ 1                                          column=finfo:destination, timestamp=1579327614180, value=mumbai                                                              
+ 1                                          column=finfo:source, timestamp=1579327595961, value=pune                                                                     
+ 1                                          column=fsch:at, timestamp=1579327648740, value=10.25a.m.                                                                     
+ 1                                          column=fsch:delay, timestamp=1579327677300, value=5min                                                                       
+ 1                                          column=fsch:dt, timestamp=1579327658708, value=11.25a.m.                                                                     
+ 2                                          column=date1:date1, timestamp=1579758022404, value=2019-11-20                                                                
+ 2                                          column=delay:dl, timestamp=1579327714444, value=4                                                                            
+ 2                                          column=finfo:destination, timestamp=1579327776317, value=kolkata                                                             
+ 2                                          column=finfo:source, timestamp=1579327785632, value=pune                                                                     
+ 2                                          column=fsch:at, timestamp=1579327762717, value=7.00a.m.                                                                      
+ 2                                          column=fsch:delay, timestamp=1579327727150, value=1min                                                                       
+ 2                                          column=fsch:dt, timestamp=1579327745423, value=7.30a.m.                                                                      
+ 3                                          column=date1:date1, timestamp=1579758050950, value=2020-01-23                                                                
+ 3                                          column=delay:dl, timestamp=1579327891740, value=5                                                                            
+ 3                                          column=finfo:destination, timestamp=1579327839417, value=pune                                                                
+ 3                                          column=finfo:source, timestamp=1579327798764, value=mumbai                                                                   
+ 3                                          column=fsch:at, timestamp=1579327855491, value=12.30p.m.                                                                     
+ 3                                          column=fsch:delay, timestamp=1579327881724, value=1min                                                                       
+ 3                                          column=fsch:dt, timestamp=1579327871037, value=12.45p.m.                                                                     
+3 row(s) in 0.0370 seconds
+
+hbase(main):020:0> CREATE external TABLE hbase_flight_new(fno int, fsource string,fdest string,fsh_at string,fsh_dt string,fsch_delay string,delay int,date1 int) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'WITH SERDEPROPERTIES("hbase.columns.mapping"=":key,finfo:source,finfo:destination,fsch:at,fsch:dt,fsch:delay,delay:dl,date1:date1") TBLPROPERTIES ("hbase.table.name" = "flight");
+hbase(main):021:0* 
+hbase(main):022:0* list
+SyntaxError: (hbase):20: syntax error, unexpected tIDENTIFIER
+
+CREATE external TABLE hbase_flight_new(fno int, fsource string,fdest string,fsh_at string,fsh_dt string,fsch_delay string,delay int,date1 int) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'WITH SERDEPROPERTIES("hbase.columns.mapping"=":key,finfo:source,finfo:destination,fsch:at,fsch:dt,fsch:delay,delay:dl,date1:date1") TBLPROPERTIES ("hbase.table.name" = "flight");
+                                                             ^
+
+hbase(main):023:0> list
+TABLE                                                                                                                                                                    
+Student_table                                                                                                                                                            
+emphive                                                                                                                                                                  
+emphive33130                                                                                                                                                             
+flight                                                                                                                                                                   
+flight33130                                                                                                                                                              
+sts                                                                                                                                                                      
+student                                                                                                                                                                  
+7 row(s) in 0.0040 seconds
+
+=> ["Student_table", "emphive", "emphive33130", "flight", "flight33130", "sts", "student"]
+hbase(main):024:0> describe 'flight'
+Table flight is ENABLED                                                                                                                                                  
+flight                                                                                                                                                                   
+COLUMN FAMILIES DESCRIPTION                                                                                                                                              
+{NAME => 'date1', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'delay', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'finfo', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'fsch', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION
+ => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                   
+4 row(s) in 0.0380 seconds
+
+hbase(main):025:0>  put 'flight',4,'finfo:source','pune'
+0 row(s) in 0.0280 seconds
+
+hbase(main):026:0>  put 'flight',4,'finfo:destination','mumbai'
+0 row(s) in 0.0030 seconds
+
+hbase(main):027:0> put 'flight',4,'fsch:at','10.25a.m.'
+0 row(s) in 0.0030 seconds
+
+hbase(main):028:0> put 'flight',4,'fsch:dt','11.25a.m.'
+0 row(s) in 0.0030 seconds
+
+hbase(main):029:0> put 'flight',4,'delay:dl','12'
+0 row(s) in 0.0040 seconds
+
+hbase(main):030:0> put 'flight',4,'date1:date1','2020-01-19'
+0 row(s) in 0.0030 seconds
+
+hbase(main):031:0> scan 'flight'
+ROW                                         COLUMN+CELL                                                                                                                  
+ 1                                          column=date1:date1, timestamp=1579758007447, value=2020-01-23                                                                
+ 1                                          column=delay:dl, timestamp=1579327690335, value=10                                                                           
+ 1                                          column=finfo:dest, timestamp=1579508129352, value=mumbai                                                                     
+ 1                                          column=finfo:destination, timestamp=1579327614180, value=mumbai                                                              
+ 1                                          column=finfo:source, timestamp=1579327595961, value=pune                                                                     
+ 1                                          column=fsch:at, timestamp=1579327648740, value=10.25a.m.                                                                     
+ 1                                          column=fsch:delay, timestamp=1579327677300, value=5min                                                                       
+ 1                                          column=fsch:dt, timestamp=1579327658708, value=11.25a.m.                                                                     
+ 2                                          column=date1:date1, timestamp=1579758022404, value=2019-11-20                                                                
+ 2                                          column=delay:dl, timestamp=1579327714444, value=4                                                                            
+ 2                                          column=finfo:destination, timestamp=1579327776317, value=kolkata                                                             
+ 2                                          column=finfo:source, timestamp=1579327785632, value=pune                                                                     
+ 2                                          column=fsch:at, timestamp=1579327762717, value=7.00a.m.                                                                      
+ 2                                          column=fsch:delay, timestamp=1579327727150, value=1min                                                                       
+ 2                                          column=fsch:dt, timestamp=1579327745423, value=7.30a.m.                                                                      
+ 3                                          column=date1:date1, timestamp=1579758050950, value=2020-01-23                                                                
+ 3                                          column=delay:dl, timestamp=1579327891740, value=5                                                                            
+ 3                                          column=finfo:destination, timestamp=1579327839417, value=pune                                                                
+ 3                                          column=finfo:source, timestamp=1579327798764, value=mumbai                                                                   
+ 3                                          column=fsch:at, timestamp=1579327855491, value=12.30p.m.                                                                     
+ 3                                          column=fsch:delay, timestamp=1579327881724, value=1min                                                                       
+ 3                                          column=fsch:dt, timestamp=1579327871037, value=12.45p.m.                                                                     
+ 4                                          column=date1:date1, timestamp=1579759480115, value=2020-01-19                                                                
+ 4                                          column=delay:dl, timestamp=1579759404683, value=12                                                                           
+ 4                                          column=finfo:destination, timestamp=1579759350288, value=mumbai                                                              
+ 4                                          column=finfo:source, timestamp=1579759325997, value=pune                                                                     
+ 4                                          column=fsch:at, timestamp=1579759365635, value=10.25a.m.                                                                     
+ 4                                          column=fsch:dt, timestamp=1579759379575, value=11.25a.m.                                                                     
+4 row(s) in 0.0140 seconds
+
+hbase(main):032:0> put 'flight',1,'fsch:delay','5'
+0 row(s) in 0.0030 seconds
+
+hbase(main):033:0> scan 'flight'
+ROW                                         COLUMN+CELL                                                                                                                  
+ 1                                          column=date1:date1, timestamp=1579758007447, value=2020-01-23                                                                
+ 1                                          column=delay:dl, timestamp=1579327690335, value=10                                                                           
+ 1                                          column=finfo:dest, timestamp=1579508129352, value=mumbai                                                                     
+ 1                                          column=finfo:destination, timestamp=1579327614180, value=mumbai                                                              
+ 1                                          column=finfo:source, timestamp=1579327595961, value=pune                                                                     
+ 1                                          column=fsch:at, timestamp=1579327648740, value=10.25a.m.                                                                     
+ 1                                          column=fsch:delay, timestamp=1579759587273, value=5                                                                          
+ 1                                          column=fsch:dt, timestamp=1579327658708, value=11.25a.m.                                                                     
+ 2                                          column=date1:date1, timestamp=1579758022404, value=2019-11-20                                                                
+ 2                                          column=delay:dl, timestamp=1579327714444, value=4                                                                            
+ 2                                          column=finfo:destination, timestamp=1579327776317, value=kolkata                                                             
+ 2                                          column=finfo:source, timestamp=1579327785632, value=pune                                                                     
+ 2                                          column=fsch:at, timestamp=1579327762717, value=7.00a.m.                                                                      
+ 2                                          column=fsch:delay, timestamp=1579327727150, value=1min                                                                       
+ 2                                          column=fsch:dt, timestamp=1579327745423, value=7.30a.m.                                                                      
+ 3                                          column=date1:date1, timestamp=1579758050950, value=2020-01-23                                                                
+ 3                                          column=delay:dl, timestamp=1579327891740, value=5                                                                            
+ 3                                          column=finfo:destination, timestamp=1579327839417, value=pune                                                                
+ 3                                          column=finfo:source, timestamp=1579327798764, value=mumbai                                                                   
+ 3                                          column=fsch:at, timestamp=1579327855491, value=12.30p.m.                                                                     
+ 3                                          column=fsch:delay, timestamp=1579327881724, value=1min                                                                       
+ 3                                          column=fsch:dt, timestamp=1579327871037, value=12.45p.m.                                                                     
+ 4                                          column=date1:date1, timestamp=1579759480115, value=2020-01-19                                                                
+ 4                                          column=delay:dl, timestamp=1579759404683, value=12                                                                           
+ 4                                          column=finfo:destination, timestamp=1579759350288, value=mumbai                                                              
+ 4                                          column=finfo:source, timestamp=1579759325997, value=pune                                                                     
+ 4                                          column=fsch:at, timestamp=1579759365635, value=10.25a.m.                                                                     
+ 4                                          column=fsch:dt, timestamp=1579759379575, value=11.25a.m.                                                                     
+4 row(s) in 0.0310 seconds
+
+hbase(main):034:0> put 'flight',1,'fsch:delay',5
+0 row(s) in 0.0030 seconds
+
+hbase(main):035:0> scan 'flight'
+ROW                                         COLUMN+CELL                                                                                                                  
+ 1                                          column=date1:date1, timestamp=1579758007447, value=2020-01-23                                                                
+ 1                                          column=delay:dl, timestamp=1579327690335, value=10                                                                           
+ 1                                          column=finfo:dest, timestamp=1579508129352, value=mumbai                                                                     
+ 1                                          column=finfo:destination, timestamp=1579327614180, value=mumbai                                                              
+ 1                                          column=finfo:source, timestamp=1579327595961, value=pune                                                                     
+ 1                                          column=fsch:at, timestamp=1579327648740, value=10.25a.m.                                                                     
+ 1                                          column=fsch:delay, timestamp=1579759607395, value=5                                                                          
+ 1                                          column=fsch:dt, timestamp=1579327658708, value=11.25a.m.                                                                     
+ 2                                          column=date1:date1, timestamp=1579758022404, value=2019-11-20                                                                
+ 2                                          column=delay:dl, timestamp=1579327714444, value=4                                                                            
+ 2                                          column=finfo:destination, timestamp=1579327776317, value=kolkata                                                             
+ 2                                          column=finfo:source, timestamp=1579327785632, value=pune                                                                     
+ 2                                          column=fsch:at, timestamp=1579327762717, value=7.00a.m.                                                                      
+ 2                                          column=fsch:delay, timestamp=1579327727150, value=1min                                                                       
+ 2                                          column=fsch:dt, timestamp=1579327745423, value=7.30a.m.                                                                      
+ 3                                          column=date1:date1, timestamp=1579758050950, value=2020-01-23                                                                
+ 3                                          column=delay:dl, timestamp=1579327891740, value=5                                                                            
+ 3                                          column=finfo:destination, timestamp=1579327839417, value=pune                                                                
+ 3                                          column=finfo:source, timestamp=1579327798764, value=mumbai                                                                   
+ 3                                          column=fsch:at, timestamp=1579327855491, value=12.30p.m.                                                                     
+ 3                                          column=fsch:delay, timestamp=1579327881724, value=1min                                                                       
+ 3                                          column=fsch:dt, timestamp=1579327871037, value=12.45p.m.                                                                     
+ 4                                          column=date1:date1, timestamp=1579759480115, value=2020-01-19                                                                
+ 4                                          column=delay:dl, timestamp=1579759404683, value=12                                                                           
+ 4                                          column=finfo:destination, timestamp=1579759350288, value=mumbai                                                              
+ 4                                          column=finfo:source, timestamp=1579759325997, value=pune                                                                     
+ 4                                          column=fsch:at, timestamp=1579759365635, value=10.25a.m.                                                                     
+ 4                                          column=fsch:dt, timestamp=1579759379575, value=11.25a.m.                                                                     
+4 row(s) in 0.0410 seconds
+
+hbase(main):036:0> put 'flight',2,'fsch:delay',10
+0 row(s) in 0.0050 seconds
+
+hbase(main):037:0> put 'flight',3,'fsch:delay',15
+0 row(s) in 0.0060 seconds
+
+hbase(main):038:0> put 'flight',4,'fsch:delay',1
+0 row(s) in 0.0050 seconds
+
+hbase(main):039:0> scan 'flight'
+ROW                                         COLUMN+CELL                                                                                                                  
+ 1                                          column=date1:date1, timestamp=1579758007447, value=2020-01-23                                                                
+ 1                                          column=delay:dl, timestamp=1579327690335, value=10                                                                           
+ 1                                          column=finfo:dest, timestamp=1579508129352, value=mumbai                                                                     
+ 1                                          column=finfo:destination, timestamp=1579327614180, value=mumbai                                                              
+ 1                                          column=finfo:source, timestamp=1579327595961, value=pune                                                                     
+ 1                                          column=fsch:at, timestamp=1579327648740, value=10.25a.m.                                                                     
+ 1                                          column=fsch:delay, timestamp=1579759607395, value=5                                                                          
+ 1                                          column=fsch:dt, timestamp=1579327658708, value=11.25a.m.                                                                     
+ 2                                          column=date1:date1, timestamp=1579758022404, value=2019-11-20                                                                
+ 2                                          column=delay:dl, timestamp=1579327714444, value=4                                                                            
+ 2                                          column=finfo:destination, timestamp=1579327776317, value=kolkata                                                             
+ 2                                          column=finfo:source, timestamp=1579327785632, value=pune                                                                     
+ 2                                          column=fsch:at, timestamp=1579327762717, value=7.00a.m.                                                                      
+ 2                                          column=fsch:delay, timestamp=1579759624771, value=10                                                                         
+ 2                                          column=fsch:dt, timestamp=1579327745423, value=7.30a.m.                                                                      
+ 3                                          column=date1:date1, timestamp=1579758050950, value=2020-01-23                                                                
+ 3                                          column=delay:dl, timestamp=1579327891740, value=5                                                                            
+ 3                                          column=finfo:destination, timestamp=1579327839417, value=pune                                                                
+ 3                                          column=finfo:source, timestamp=1579327798764, value=mumbai                                                                   
+ 3                                          column=fsch:at, timestamp=1579327855491, value=12.30p.m.                                                                     
+ 3                                          column=fsch:delay, timestamp=1579759629555, value=15                                                                         
+ 3                                          column=fsch:dt, timestamp=1579327871037, value=12.45p.m.                                                                     
+ 4                                          column=date1:date1, timestamp=1579759480115, value=2020-01-19                                                                
+ 4                                          column=delay:dl, timestamp=1579759404683, value=12                                                                           
+ 4                                          column=finfo:destination, timestamp=1579759350288, value=mumbai                                                              
+ 4                                          column=finfo:source, timestamp=1579759325997, value=pune                                                                     
+ 4                                          column=fsch:at, timestamp=1579759365635, value=10.25a.m.                                                                     
+ 4                                          column=fsch:delay, timestamp=1579759634803, value=1                                                                          
+ 4                                          column=fsch:dt, timestamp=1579759379575, value=11.25a.m.                                                                     
+4 row(s) in 0.0270 seconds
+
+hbase(main):040:0> alter 'flight', NAME=>'delay',METHOD=>'delete'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 3.5460 seconds
+
+hbase(main):041:0> describe flight
+NameError: undefined local variable or method `flight' for #<Object:0x3caee3a8>
+
+hbase(main):042:0> describe 'flight'
+Table flight is ENABLED                                                                                                                                                  
+flight                                                                                                                                                                   
+COLUMN FAMILIES DESCRIPTION                                                                                                                                              
+{NAME => 'date1', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'finfo', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSIO
+N => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                  
+{NAME => 'fsch', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION
+ => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                   
+3 row(s) in 0.0110 seconds
+
+hbase(main):043:0>  put 'flight',5,'finfo:source','mumbai'
+0 row(s) in 0.0050 seconds
+
+hbase(main):044:0> put 'flight',5,'finfo:destination','delhi'
+0 row(s) in 0.0040 seconds
+
+hbase(main):045:0> put 'flight',5,'fsch:at','12.25a.m.'
+0 row(s) in 0.0090 seconds
+
+hbase(main):046:0> put 'flight',5,'fsch:dt','1.25p.m.'
+0 row(s) in 0.0040 seconds
+
+hbase(main):047:0> put 'flight',5,'fsch:delay','50'
+0 row(s) in 0.0110 seconds
+
+hbase(main):048:0> put 'flight',5,'date1:date1','2019-08-11'
+0 row(s) in 0.0070 seconds
+
+hbase(main):049:0>  put 'flight',6,'finfo:source','delhi'
+0 row(s) in 0.0060 seconds
+
+hbase(main):050:0> put 'flight',6,'finfo:destination','udaipur'
+0 row(s) in 0.0030 seconds
+
+hbase(main):051:0> put 'flight',6,'fsch:at','12.50a.m.'
+0 row(s) in 0.0040 seconds
+
+hbase(main):052:0> put 'flight',6,'fsch:dt','2.50a.m.'
+0 row(s) in 0.0030 seconds
+
+hbase(main):053:0> put 'flight',5,'fsch:delay',50
+0 row(s) in 0.0090 seconds
+
+hbase(main):054:0> put 'flight',6,'fsch:delay',5
+0 row(s) in 0.0060 seconds
+
+hbase(main):055:0> put 'flight',6,'date1:date1','2019-08-24'
+0 row(s) in 0.0080 seconds
+
+hbase(main):056:0>  put 'flight',7,'finfo:source','agra'
+0 row(s) in 0.0070 seconds
+
+hbase(main):057:0> put 'flight',7,'finfo:destination','pune'
+0 row(s) in 0.0090 seconds
+
+hbase(main):058:0> put 'flight',7,'fsch:at','1.50p.m.'
+0 row(s) in 0.0060 seconds
+
+hbase(main):059:0> put 'flight',7,'fsch:dt','2.50p.m.'
+0 row(s) in 0.0040 seconds
+
+hbase(main):060:0> put 'flight',7,'fsch:delay',6
+0 row(s) in 0.0050 seconds
+
+hbase(main):061:0> put 'flight',7,'date1:date1','2018-09-29'
+0 row(s) in 0.0020 seconds
+
+hbase(main):062:0> 
+
