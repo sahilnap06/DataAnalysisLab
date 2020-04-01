@@ -1,7 +1,8 @@
+# Roll no 33140
 installinstall.packages("readxl")
 library(readxl)
 dataset <- read_excel("/home/pict/3960/assign5/AirQualityUCI.xls")
-View(dataset)  
+View(dataset)
 
     #BASIC PLOTS
 
@@ -47,7 +48,3 @@ plot(dataset$`CO(GT)`,dataset$`C6H6(GT)`, main="CO vs C6H6", xlab="CO(GT)", ylab
 
 #Normal QQ Plots
 qqnorm(dataset$`NMHC(GT)`)
-
-    #ADVANCED PLOTS
-
-
