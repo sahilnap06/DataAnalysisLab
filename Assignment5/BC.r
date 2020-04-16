@@ -1,1 +1,0 @@
-setwd("~/Documents/SL-VI/33140/")

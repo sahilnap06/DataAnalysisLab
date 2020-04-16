@@ -1,17 +1,22 @@
+setwd("G:/College/SL6/Assignment7/")
 # Install
-install.packages("tm")  # for text mining
-install.packages("SnowballC") # for text stemming
-install.packages("wordcloud") # word-cloud generator 
-install.packages("RColorBrewer") # color palettes
-
+#install.packages("tm")  # for text mining
+#install.packages("SnowballC") # for text stemming
+#install.packages("wordcloud") # word-cloud generator 
+#install.packages("RColorBrewer") # color palettes
+#install.packages("wordcloud2") # word-cloud generator 
+#install.packages('readtext')
 # Load
 library("tm")
 library("SnowballC")
 library("wordcloud")
 library("RColorBrewer")
+library("wordcloud2")
+library("readtext")
 
 #load the text
-text <- readLines(file.choose())
+
+text <- readtext("../../Sl-VI DataSets/TextMining/NarendraModi.txt")
 
 #Load the data as a corpus
 docs <- Corpus(VectorSource(text))
