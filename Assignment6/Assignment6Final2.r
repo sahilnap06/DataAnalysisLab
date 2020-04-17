@@ -1,5 +1,7 @@
 setwd("G:/College/SL6/Assignment6")
 
+library('caTools')
+
 # Read the dataset
 breast_cancer = read.csv2("../../Sl-VI DataSets/BreastCancer/BreastCancerWc.csv",header = T,sep =',')
 names(breast_cancer)
@@ -38,12 +40,14 @@ breast_cancer$Class
 '?' %in% breast_cancer$ECellSize
 '?' %in% breast_cancer$BN # Returned true (16 values are '?')
 
-breast_cancer$BN <- replace(breast_cancer$BN, breast_cancer$BN == '?',NA)
-
+# replace the NA values
+breast_cancer$BN <- replace(breast_cancer$BN, breast_cancer$BN == '?',NA) # replace ? with NA
 levels(breast_cancer)[levels(breast_cancer)]
 summary(breast_cancer$CT)
-breast_cancer$BN[is.na(breast_cancer$BN)] <- 4.0 # Median value
+breast_cancer$BN[is.na(breast_cancer$BN)] <- 4.0 # Median value (replace NA)
 
+
+# Mosiac plots of some of the factors vs the class of cancer
 mosaicplot(breast_cancer$CellSize ~ breast_cancer$Class, main = "Cancer class by Cell size",
            color = TRUE, shade = FALSE, xlab = "Cell size ID", ylab = "Class of cancer")
 
@@ -51,4 +55,40 @@ mosaicplot(breast_cancer$CellShape ~ breast_cancer$Class, main = "Cancer class b
            color = TRUE, shade = FALSE, xlab = "Cell shape ID", ylab = "Class of cancer")
 
 mosaicplot(breast_cancer$BN ~ breast_cancer$Class, main = "Cancer class as per Bare Nuclei",
-           color = TRUE, shade = FALSE, xlab = "Bare Nuclei ID", ylab = "Class of cancer") # TOO RANDOM
+           color = TRUE, shade = FALSE, xlab = "Bare Nuclei ID", ylab = "Class of cancer")
+
+
+# Create the dataframes for training and testing
+
+brcdata<-breast_cancer
+brcdata$ID=factor(brcdata$ID)
+brcdata$CT=factor(brcdata$CT)
+brcdata$TCellSize=factor(brcdata$CellSize)
+brcdata$CellShape=factor(brcdata$CellShape)
+brcdata$MA=factor(brcdata$MA)
+brcdata$ECellSize=factor(brcdata$ECellSize)
+brcdata$BN=factor(brcdata$BN)
+brcdata$BC=factor(brcdata$BC)
+brcdata$NN=factor(brcdata$NN)
+brcdata$Mit=factor(brcdata$Mit)
+brcdata$Class=factor(brcdata$Class)
+
+# Dividing dataset into training and testing
+split = sample.split(brcdata$Class, SplitRatio = 2/3)
+train_brcdata = subset(brcdata,split == TRUE)
+test_brcdata = subset(brcdata,split == FALSE)
+train_brcdata
+
+# Applying Naive Bayes claasifier on dataset
+library(e1071)
+classifier <- naiveBayes(Class ~ CT+CellSize+CellShape+MA+ECellSize+BN+BC+NN+Mit,train_brcdata)
+classifier
+prediction <- predict(classifier, test_brcdata ,type="class") #predict using trained model
+
+table(prediction,  test_brcdata[,11])   # put it in table
+
+# Displaying the accuracy using confusion Matrix
+library(e1071)
+library(caret)
+df1=confusionMatrix(test_brcdata[,11],prediction) #create the confusion matrix
+df1

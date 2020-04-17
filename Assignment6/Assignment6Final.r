@@ -1,7 +1,13 @@
+# Roll no. 33140
+# Batch: L9
+# P.S.: Application of Linear regression on Heart disease dataset to predict the fate (prob. of heart disease)
+
 # Set working directory
 setwd("G:/College/SL6/Assignment6/")
-#install.packages(c("caret", "e1071"))
-# Read the CSV file
+
+# install.packages(c("caret", "e1071"))
+
+# Read the CSV file and analyse
 hdata <- read.csv("../../Sl-VI DataSets/HeartDisease/Cleavland.csv",header=TRUE,sep=",")
 names(hdata)
 str(hdata)
@@ -34,22 +40,29 @@ nrow(hdata)
 hdata$num[hdata$num >= 1] <- 1 # Edit the fate to 0 and 1
 barplot(table(hdata$num), main="Fate", col="black")
 
-
+# Plot Fate vs gender
 mosaicplot(hdata$sex ~ hdata$num,main="Fate by Gender",
            shade=FALSE,color=TRUE,xlab="Gender", ylab="Heart disease")
 
+# Plot Fate vs Age
+mosaicplot(hdata$age ~ hdata$num,main="Fate by Age",
+           shade=FALSE,color=TRUE,xlab="Age", ylab="Heart disease")
 
-# Most important step
+
+# Most important step, change the values of NA
 levels(hdata$thal)[levels(hdata$thal)=="?"]<-"3.0"
 
+# removal of additional NA
 hdata$thal
 table(hdata$thal)
+# hdata$thal[is.na(hdata$thal)]<-'3.0'
 
-hdata$thal[is.na(hdata$thal)]<-'3.0'
+
 table(hdata$ca)
-library(caTools)
-n<- sapply(hdata[, c(1)], mean)
-set.seed(123)
+
+library(caTools) # import library caTools
+n<- sapply(hdata[, c(1)], mean) # get the average values
+set.seed(123) # generate a pseudo-random number
 
 v3 <- hdata[c(11:14),c(2,7:9)]
 View(v3)
@@ -58,21 +71,25 @@ m
 
 set.seed(121)
 
+# Divide the dataset into 2/3 for training, and 1/3 for testing
 split = sample.split(hdata$num, SplitRatio = 2/3)
 train_hdata = subset(hdata, split == TRUE)
 test_hdata = subset(hdata, split == FALSE)
 
-library(caTools)
+# Apply linear regression for Fate vs age
 regressor=lm(formula = num~age, data=train_hdata)
 
 View(regressor)
 
-hd_age_predict=predict(regressor, newdata=test_hdata)
+# Apply regression on test data
+hd_age_predict = predict(regressor, newdata=test_hdata)
 hd_age_predict
+
+# Round the values of fate in prediction
 round_age=hd_age_predict
-rage=round(round_age)
-View(rage)
-table(rage,test_hdata$num)
+r=round(round_age)
+View(r)
+table(r,test_hdata$num)
 
 library(e1071)
 library(caret)
