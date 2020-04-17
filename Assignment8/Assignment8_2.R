@@ -1,66 +1,39 @@
-# Roll no. 33140
-# assignemnt 8 (B): Visualization on heart disease dataset
+
+#RollNo: 33140
+#Problem Statement: Visualize the data using R/Python.
 
 wd = getwd()
 setwd(wd)
 
-#install.packages( "ggplot2", repos = c("http://rstudio.org/_packages","http://cran.rstudio.com"))
-install.packages('gtools')
-install.packages('plotly')
-# loading libraries
-library('ggplot2')
-library('dplyr')
-library('gtools')
-library('plotly')
+iris=read.csv("../../Sl-VI DataSets/Iris/Iris.csv",header = F, sep = ',')
+head(iris)
 
-# read the forest fire dataset
-df<-read.csv2("../../Sl-VI DataSets/forestfires/forestfires.csv",sep=',',header=TRUE) # Import Dataset
-View(df)
-names(df)
+names(iris) <- c('Sepal.Length',"Sepal.Width","Petal.Length","Petal.Width","Class")
 
-#cleaning
-summary(df$month)
-levels(df$month)[levels(df$month) == 'jan'] <- 1
-levels(df$month)[levels(df$month) == 'feb'] <- 2
-levels(df$month)[levels(df$month) == 'mar'] <- 3
-levels(df$month)[levels(df$month) == 'apr'] <- 4
-levels(df$month)[levels(df$month) == 'may'] <- 5
-levels(df$month)[levels(df$month) == 'jun'] <- 6
-levels(df$month)[levels(df$month) == 'jul'] <- 7
-levels(df$month)[levels(df$month) == 'aug'] <- 8
-levels(df$month)[levels(df$month) == 'sep'] <- 9
-levels(df$month)[levels(df$month) == 'oct'] <- 10
-levels(df$month)[levels(df$month) == 'nov'] <- 11
-levels(df$month)[levels(df$month) == 'dec'] <- 12
-summary(df$month)
-levels(df$day)[levels(df$day) == 'mon'] <- 1
-levels(df$day)[levels(df$day) == 'tue'] <- 2
-levels(df$day)[levels(df$day) == 'wed'] <- 3
-levels(df$day)[levels(df$day) == 'thu'] <- 4
-levels(df$day)[levels(df$day) == 'fri'] <- 5
-levels(df$day)[levels(df$day) == 'sat'] <- 6
-levels(df$day)[levels(df$day) == 'sun'] <- 7
+plot(iris$Petal.Length)
 
-df$month <- as.numeric(as.character(df$month))
-df$day <- as.numeric(as.character(df$day))
-df$area <- as.numeric(as.character(df$area))
-typeof(df$month)
-typeof(df$area)
-typeof(df$day)
-  #sorting the data as per months and then days
-cleaned <- df[mixedorder(-df$month,df$day),]
-View(cleaned)
+#BAR CHARTS
 
-# Visualizations
-help(plot)
+barplot(c(30,46,14),ylab = c("setosa","versicolor","virginica"),xlab = yaxis , main = "species quantity" )
 
-plot(cleaned$month,cleaned$day,type = 's', main = "Day-wise fire in months", xlab = "Months", ylab ="Days")
+barplot(c(30,46,14), main = "species quantity",names.arg = c("setosa","versicolor","virginica") )
 
-ggplot(cleaned, aes(x = "month", y = "day"))+geom_point()
+barplot(iris$Sepal.Length, main = "sepal length of iris" )
 
-tapply(cleaned$area, cleaned$month, FUN = sum)
+hist(iris$Sepal.Length,main = "sepal length of iris",col="darkmagenta",freq=FALSE)
 
-plot(cleaned$month,cleaned$area, type = "o",xlab = "Months",ylab = "Area destroyed")
 
-plot(cleaned$month,cleaned$rain,type = 'l',xlab = "Month",ylab = "Rain in cm")
+#PIE CHART
+x<-c(25,30,45)
+label<-c("setosa","versicolor","virginica")
+radius<-40
+color<-c("orange","brown","pink")
+pie(x,label,40,main = "Specis of iris flower",col = color,clockwise = FALSE)
+y<-c(summary(iris$Species))
+color<-c("orange","blue","pink")
+
+
+#scatterplot
+plot(iris$Petal.Length,iris$Petal.Width,main = "Iris Petals Analysis",xlab = "Length",ylab = "Width",xlim = c(0,8),ylim = c(0,2.5),axes = TRUE,col=1)
+
 

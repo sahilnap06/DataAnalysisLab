@@ -1,11 +1,14 @@
 # Roll no 33140
 # Assignment 8(A): Visualization of Air Quality dataset
-
+wd = getwd()
+setwd(wd)
 
 dataset <- read.csv2("G:/College/Sl-VI DataSets/AirQualityUCI.csv", header = T, sep =',')
+names(dataset)
 View(dataset)
 head(dataset)
 
+names(dataset)[13] <- 'Temp'
     #BASIC PLOTS
 
 # Generic Plots
@@ -60,3 +63,8 @@ slices <- c(10, 12, 4, 16, 8)
 lbls <- c("US", "UK", "Australia", "Germany", "France")
 pie3D(slices,labels=lbls,explode=0.1,
       main="Pie Chart of Countries ")
+
+yaxis=c(10,20,30,40,50,60,70,80.90,100)
+summary(dataset)
+
+barplot(dataset$Temp,main = "Temperature")

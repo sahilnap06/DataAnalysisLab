@@ -1,5 +1,11 @@
+# Roll no. 33140
+# Batch: L9
+# PS. Using Naive-Bayes algorithm to predict Breast Cancer
+
+# set the working directory
 setwd("G:/College/SL6/Assignment6")
 
+# Load libraries
 library('caTools')
 
 # Read the dataset
@@ -22,11 +28,7 @@ names(breast_cancer)[11] = "Class" # class
 names(breast_cancer)
 breast_cancer$Class
 
-# Set 1 for malignant, 0 for benign
-
-# levels(breast_cancer$Class)[levels(breast_cancer$Class) == 4] <- 1 # DOESN'T WORK
-# levels(breast_cancer$Class)[levels(breast_cancer$Class) == 2] <- 0 # DOESN'T WORK
-
+# Set 1 for malignant, 0 for benign (Clean the data)
 breast_cancer$Class <- replace(breast_cancer$Class, breast_cancer$Class == 4,1)
 breast_cancer$Class <- replace(breast_cancer$Class, breast_cancer$Class == 2,0)
 
@@ -59,7 +61,6 @@ mosaicplot(breast_cancer$BN ~ breast_cancer$Class, main = "Cancer class as per B
 
 
 # Create the dataframes for training and testing
-
 brcdata<-breast_cancer
 brcdata$ID=factor(brcdata$ID)
 brcdata$CT=factor(brcdata$CT)

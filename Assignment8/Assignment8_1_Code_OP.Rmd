@@ -15,7 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 dataset <- read.csv2("G:/College/Sl-VI DataSets/AirQualityUCI.csv", header = T, sep =',')
 View(dataset)
+names(dataset)[13] <- 'Temp'
 head(dataset)
+
 ```
 
 ```{r}
@@ -90,3 +92,9 @@ pie3D(slices,labels=lbls,explode=0.1,
 
 ```
 
+```{r}
+yaxis=c(10,20,30,40,50,60,70,80.90,100)
+summary(dataset)
+
+barplot(dataset$Temp,main = "Temperature")
+```

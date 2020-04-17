@@ -65,7 +65,7 @@ n<- sapply(hdata[, c(1)], mean) # get the average values
 set.seed(123) # generate a pseudo-random number
 
 v3 <- hdata[c(11:14),c(2,7:9)]
-View(v3)
+v3
 m<- sapply(v3,max)
 m
 
@@ -80,7 +80,7 @@ test_hdata = subset(hdata, split == FALSE)
 regressor=lm(formula = num~age, data=train_hdata)
 
 View(regressor)
-
+regressor
 # Apply regression on test data
 hd_age_predict = predict(regressor, newdata=test_hdata)
 hd_age_predict
@@ -89,17 +89,18 @@ hd_age_predict
 round_age=hd_age_predict
 r=round(round_age)
 View(r)
+r
 table(r,test_hdata$num)
 
 library(e1071)
 library(caret)
-typeof(rage)
+typeof(r)
 
-levels(rage)
+levels(r)
 levels(test_hdata$num)
 
-str(rage)
-r1 = as.data.frame(rage)
+str(r)
+r1 = as.data.frame(r)
 r1
-df1=confusionMatrix(as.factor(r1$rage),as.factor(test_hdata$num))
+df1=confusionMatrix(as.factor(r1$r),as.factor(test_hdata$num))
 df1
