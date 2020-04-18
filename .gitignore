@@ -3,3 +3,7 @@
 *.Rproj
 *.RData
 *.docx
+*.classpath
+*.project
+*.prefs
+*.csv
