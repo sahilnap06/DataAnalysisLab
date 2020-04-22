@@ -24,21 +24,36 @@ text <- readtext("../../Sl-VI DataSets/TextMining/NarendraModi.txt")
 #Load the data as a corpus
 docs <- Corpus(VectorSource(text))
 
-#Inspect the content of the document
+#Inspect part of the content of the document
 inspect(docs)
 
-docs <- docs
-  tm_map(removeNumbers) %>%
-  tm_map(removePunctuation) %>%
-  tm_map(stripWhitespace)
-docs <- tm_map(docs, content_transformer(tolower)) # convert them to lower alphabets
-docs <- tm_map(docs, removeWords, stopwords("english")) # remove english stopwords
+  # Remove White spaces
+  text_data <- tm_map(docs,stripWhitespace)
+  inspect(text_data)
+  
+  # convert to lower
+  text_data <- tm_map(text_data,tolower)
+  inspect(text_data)
+  
+  # Remove numbers
+  text_data <- tm_map(text_data,removeNumbers)
+  inspect(text_data)
+  
+  # Remove punctuations
+  text_data <- tm_map(text_data,removePunctuation)
+  inspect(text_data)
+  
+  # Remove words
+  text_data <- tm_map(text_data,removeWords,stopwords('english'))
+  inspect(text_data)
+  
 
-dtm <- TermDocumentMatrix(docs) 
+  # Create a TDM
+dtm <- TermDocumentMatrix(text_data) 
 matrix <- as.matrix(dtm) 
 words <- sort(rowSums(matrix),decreasing=TRUE) 
 df <- data.frame(word = names(words),freq=words)
+str(df)
 
 set.seed(1234) # for reproducibility 
-wordcloud(words = df$word, freq = df$freq, min.freq = 1,max.words=200, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
-
+wordcloud(words = df$word, freq = df$freq, min.freq = 1,max.words=15, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))

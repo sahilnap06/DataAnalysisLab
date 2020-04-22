@@ -1,3 +1,17 @@
+---
+title: "Assignment 6_2"
+author: "33140 (Sahil Naphade)"
+date: "23/04/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Load the libraries and read the file
+```{r}
 # Roll no. 33140
 # Batch: L9
 # PS. Using Naive-Bayes algorithm and SVM to predict Breast Cancer
@@ -7,6 +21,8 @@ setwd("G:/College/SL6/Assignment6")
 
 # Load libraries
 library('caTools')
+library(e1071)
+library(caret)
 
 # Read the dataset
 breast_cancer = read.csv2("../../Sl-VI DataSets/BreastCancer/BreastCancerWc.csv",header = T,sep =',')
@@ -28,6 +44,10 @@ names(breast_cancer)[11] = "Class" # class
 names(breast_cancer)
 breast_cancer$Class
 
+```
+Clean the data
+
+```{r}
 # Set 1 for malignant, 0 for benign (Clean the data)
 breast_cancer$Class <- replace(breast_cancer$Class, breast_cancer$Class == 4,1)
 breast_cancer$Class <- replace(breast_cancer$Class, breast_cancer$Class == 2,0)
@@ -48,15 +68,22 @@ levels(breast_cancer)[levels(breast_cancer)]
 summary(breast_cancer$CT)
 breast_cancer$BN[is.na(breast_cancer$BN)] <- 4.0 # Median value (replace NA)
 
+```
 
-# Mosiac plots of some of the factors vs the class of cancer
+Visualize
+```{r}
 mosaicplot(breast_cancer$CellSize ~ breast_cancer$Class, main = "Cancer class by Cell size",
            color = TRUE, shade = FALSE, xlab = "Cell size ID", ylab = "Class of cancer")
+```
 
+```{r}
 mosaicplot(breast_cancer$CellShape ~ breast_cancer$Class, main = "Cancer class by Cell shape",
            color = TRUE, shade = FALSE, xlab = "Cell shape ID", ylab = "Class of cancer")
 
+```
 
+Subset the data to create training and testing, and convert the data to factors.
+```{r}
 # Create the dataframes for training and testing
 brcdata<-breast_cancer
 brcdata$ID=factor(brcdata$ID)
@@ -76,12 +103,19 @@ split = sample.split(brcdata$Class, SplitRatio = 2/3)
 train_brcdata = subset(brcdata,split == TRUE)
 test_brcdata = subset(brcdata,split == FALSE)
 str(train_brcdata)
+```
 
+APPLYING NAIVE-BAYES
+```{r}
 # Applying-Naive Bayes claasifier on dataset (Training)
 library(e1071) # import library
 classifier <- naiveBayes(Class ~ CT+CellSize+CellShape+MA+ECellSize+BN+BC+NN+Mit,train_brcdata) # train the model
 classifier    # check the prediction model for Naive Bayes
 
+```
+
+Display accuracy
+```{r}
 # Prediction
 prediction <- predict(classifier, test_brcdata ,type="class") # predict using trained model
 
@@ -89,21 +123,28 @@ prediction <- predict(classifier, test_brcdata ,type="class") # predict using tr
 table(prediction,  test_brcdata[,11])
 
 # Displaying the accuracy using confusion Matrix
-library(e1071)
-library(caret)
 nb_accuracy <- confusionMatrix(test_brcdata[,11],prediction) #create the confusion matrix
 nb_accuracy
 
+```
 
+Applying SVM
+```{r}
 # Applying SVM on the dataset (Bare nuclei vs Class)
 # Plot Class vs Bare Nuclei values
 # Line plot
 plot(x = brcdata$Class,y = brcdata$BN, xlab = "Bare Nuclei", ylab = "Class (0 for Benign, 1 for malignant")
 
+```
+
+```{r}
 # Mosaic plot
 mosaicplot(breast_cancer$BN ~ breast_cancer$Class, main = "Cancer class as per Bare Nuclei",
            color = TRUE, shade = FALSE, xlab = "Bare Nuclei ID", ylab = "Class of cancer")
 
+```
+
+```{r}
 # Train the SVM model
 svm_model <- svm(Class ~ BN,train_brcdata)
 
@@ -112,4 +153,7 @@ prediction_svm <- predict(svm_model,test_brcdata)
 
 svm_accuracy <- confusionMatrix(test_brcdata[,11],prediction_svm)
 svm_accuracy
+```
+
+
 

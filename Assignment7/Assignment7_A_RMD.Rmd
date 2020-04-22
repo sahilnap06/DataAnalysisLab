@@ -1,0 +1,106 @@
+---
+title: "Assignment7_A"
+author: "33140 (Sahil Naphade)"
+date: "22/04/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+ Roll no. 33140
+ Batch: L9
+ Assignment 7: Generate wordcloud (1)
+
+1. Install and load libraries
+```{r}
+
+setwd("G:/College/SL6/Assignment7/")
+# Install
+#install.packages("tm")  # for text mining
+#install.packages("SnowballC") # for text stemming
+#install.packages("wordcloud") # word-cloud generator 
+#install.packages("RColorBrewer") # color palettes
+#install.packages("wordcloud2") # word-cloud generator 
+#install.packages('readtext')
+# Load
+library("tm")
+library("SnowballC")
+library("wordcloud")
+library("RColorBrewer")
+library("wordcloud2")
+library("readtext")
+
+```
+
+2. Read the text file, load as Corpus and inspect the file
+```{r}
+#load the text
+
+text <- readtext("../../Sl-VI DataSets/TextMining/NarendraModi.txt")
+
+#Load the data as a corpus
+docs <- Corpus(VectorSource(text))
+
+#Inspect part of the content of the document
+inspect(docs)
+```
+
+3. Preparation of data
+  a. Remove White spaces from data
+```{r}
+  # remove white spaces  
+text_data <- tm_map(docs,stripWhitespace)
+  inspect(text_data)
+  
+```
+  
+  b. Convert all the words to lower alphabets
+```{r}
+  # convert to lower
+  text_data <- tm_map(text_data,tolower)
+  inspect(text_data)
+```
+  
+  c. Remove the numbers
+```{r}
+# Remove numbers
+  text_data <- tm_map(text_data,removeNumbers)
+  inspect(text_data)
+  
+```
+  
+  d. Remove punctuations in the text
+```{r}
+# Remove punctuations
+  text_data <- tm_map(text_data,removePunctuation)
+  inspect(text_data)
+```
+  
+  e. Remove stop-words
+```{r}
+# Remove stop-words
+  text_data <- tm_map(text_data,removeWords,stopwords('english'))
+  inspect(text_data)
+```
+  
+4. Load the data into Term Document Matrix, convert in a matrix, sort the data as increasing number of occurances, load as a dataframe
+```{r}
+  # Create a TDM
+dtm <- TermDocumentMatrix(text_data) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+str(df)
+```
+
+5. Generate Word Cloud
+```{r}
+set.seed(1234) # for reproducibility 
+wordcloud(words = df$word, freq = df$freq, min.freq = 1,max.words=15, random.order=FALSE,rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+
+```
+
